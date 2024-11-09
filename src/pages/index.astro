@@ -2,6 +2,7 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import SearchForm from "../components/SearchForm.astro";
 import { getCollection } from "astro:content";
+import MostRecentArticles from "../components/MostRecentArticles.astro";
 import type { CollectionEntry } from "astro:content";
 import type { ActionAPIContext } from "astro:actions";
 import { HOMEPAGE_ARTICLE_LIMIT } from "../constants";
@@ -9,7 +10,7 @@ import ArticleCard from "../components/ArticleCard.astro";
 
 const allBlogArticles: CollectionEntry<'blog'>[] = (await getCollection('blog')).sort((a:CollectionEntry<'blog'>, b:CollectionEntry<'blog'>) => b.data.pubDate.valueOf()-a.data.pubDate.valueOf());
 
-const mostRecentArticle: CollectionEntry<'blog'> = allBlogArticles[0];
+const latestRecentArticle: CollectionEntry<'blog'> = allBlogArticles[0];
 
 const otherArticles: CollectionEntry<'blog'>[] = allBlogArticles.slice(1);
 
@@ -27,35 +28,7 @@ const otherArticles: CollectionEntry<'blog'>[] = allBlogArticles.slice(1);
         <SearchForm />
           
         </div>
-        <!-- Most Recent Article -->
-        <div class="relative inline-block w-full sm:w-auto cursor-pointer rounded-2xl">
-          <a href="article.html">
-          <img src="/images/image1.png" alt="Article Image" class="w-full h-auto rounded-2xl" />
-
-          <div
-            class="absolute inset-0 flex flex-col items-center justify-center bg-black opacity-80 hover:opacity-75 transition duration-300 ease-in-out text-white text-center rounded-2xl"
-          >
-            <div>
-              <h2 class="text-2xl font-semibold sm:text-3xl">
-                  The best laptops for developers in 2024
-              </h2>
-              <p class="text-xl mt-4">January 20, 2024</p>
-
-              <!-- Tags with rounded border -->
-              <div class="flex mt-4 justify-center">
-                <span
-                  class="px-2 py-1 border text-white rounded-full text-xs mr-2"
-                  >Tech</span
-                >
-                <span
-                  class="px-2 py-1 border text-white rounded-full text-xs mr-2"
-                  >Hardware</span
-                >
-              </div>
-            </div>
-          </div>
-          </a>
-        </div>
+        <MostRecentArticles article={latestRecentArticle} />
       </div>
 
       <!-- Main Grid -->
